@@ -16,9 +16,10 @@ namespace iHubAPI.Filters
             //Store the information somewhere.
             var details = new List<string>()
             {
-                {context?.Exception?.StackTrace },
-                {context?.Exception?.Message },
-                {context?.Exception?.InnerException?.ToString() }
+                //$"TraceID: {context.Result.}"
+                $"StackTrace: {context?.Exception?.StackTrace }",
+                $"Message: {context?.Exception?.Message }",
+                $"InnerException: {context?.Exception?.InnerException?.ToString() }"
             };
 
             var status = new Status
@@ -28,6 +29,9 @@ namespace iHubAPI.Filters
                 StatusDetails = details,
                 StatusMessage = "Exception"
             };
+
+            // Log the issue somewhere... :)
+
             context.HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
             context.Result = new JsonResult(status);
             
