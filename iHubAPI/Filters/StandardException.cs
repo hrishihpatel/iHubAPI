@@ -25,7 +25,6 @@ namespace iHubAPI.Filters
             var status = new Status
             {
                 StatusCode = StatusCodes.Status500InternalServerError,
-                //This is a place holder, i would not include the exception details in the response.
                 StatusDetails = new List<string> { $"TraceIdentifier: {tracerID}", "An Unexpected error has occured, please reffer to above traceID." },
                 StatusMessage = "Exception"
             };
