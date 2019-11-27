@@ -2,10 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System;
+using Serilog;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace iHubAPI.Filters
 {
@@ -13,24 +11,24 @@ namespace iHubAPI.Filters
     {
         public override void OnException(ExceptionContext context)
         {
+            string tracerID = context.HttpContext.TraceIdentifier;
             //Store the information somewhere.
-            var details = new List<string>()
+            var details = new List<string>
             {
-                //$"TraceID: {context.Result.}"
+                $"TraceID: {tracerID}",
                 $"StackTrace: {context?.Exception?.StackTrace }",
                 $"Message: {context?.Exception?.Message }",
                 $"InnerException: {context?.Exception?.InnerException?.ToString() }"
             };
 
+            Log.Error(details.ToString());
             var status = new Status
             {
                 StatusCode = StatusCodes.Status500InternalServerError,
                 //This is a place holder, i would not include the exception details in the response.
-                StatusDetails = details,
+                StatusDetails = new List<string> { $"TraceIdentifier: {tracerID}", "An Unexpected error has occured, please reffer to above traceID." },
                 StatusMessage = "Exception"
             };
-
-            // Log the issue somewhere... :)
 
             context.HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
             context.Result = new JsonResult(status);

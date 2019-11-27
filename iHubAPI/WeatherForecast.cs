@@ -2,11 +2,7 @@ using System;
 
 namespace iHubAPI
 {
-    public interface IWeatherForecast
-    {
-
-    }
-    public class WeatherForecast : IWeatherForecast
+    public class WeatherForecast
     {
         public DateTime Date { get; set; }
 

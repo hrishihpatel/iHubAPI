@@ -1,4 +1,6 @@
+using System;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 
@@ -8,19 +10,33 @@ namespace iHubAPI
     {
         public static void Main(string[] args)
         {
+            var config = new ConfigurationBuilder()
+                    .AddJsonFile("appsettings.json", optional: false)
+                    .Build();
             Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Debug()
-                .WriteTo.EventCollector("http://localhost:8000/", "090042d9-0beb-4b9d-97f5-d2ac69066e83")
-                .CreateLogger();
-            CreateHostBuilder(args).Build().Run();
+               .Enrich.FromLogContext()
+               .ReadFrom.Configuration(config)
+               //.WriteTo.Console()
+               //.WriteTo.File(new RenderedCompactJsonFormatter(), "/Users/hrishikeshpatel/Documents/GitHub/iHubAPI/log.ndjson")
+               .CreateLogger();
+
+            try
+            {
+                Log.Information("Starting application");
+                CreateHostBuilder(args).Build().Run();
+            }
+            catch(Exception ex)
+            {
+                Log.Fatal(ex, "Application start-up failed");
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                /*.ConfigureLogging(config =>
-                {
-                    config.ClearProviders();
-                })*/
                 .UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {

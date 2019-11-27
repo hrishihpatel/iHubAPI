@@ -14,18 +14,18 @@ namespace iHubAPI.Controllers
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        private readonly ILogger<WeatherForecastController> _logger;
+        private readonly ILogger<WeatherForecastController> _log;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger) => _logger = logger;
+        public WeatherForecastController(ILogger<WeatherForecastController> logger) => _log = logger;
 
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
-            _logger.LogDebug("Executing WeatherController");
+            _log.LogInformation("Executing WeatherController");
  
             var rng = new Random();
-            //int a = 0;
-            //double test = a / a;
+            int a = 0;
+            double test = a / a;
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),
