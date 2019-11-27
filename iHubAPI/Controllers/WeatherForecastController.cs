@@ -34,11 +34,5 @@ namespace iHubAPI.Controllers
             })
             .ToArray();
         }
-
-        /*[HttpPost]
-        public async Task<Status> Weather()
-        {
-           
-        }*/
     }
 }

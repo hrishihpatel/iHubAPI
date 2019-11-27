@@ -16,8 +16,8 @@
     <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0-rc4" />
     <PackageReference Include="Serilog.Sinks.Splunk" Version="3.3.0" />
-    <PackageReference Include="Serilog.Sinks.Splunk.TCP" Version="1.2.0" />
     <PackageReference Include="Serilog.Sinks.Splunk.UDP" Version="1.2.0" />
+    <PackageReference Include="Scrutor" Version="3.1.0" />
   </ItemGroup>
 
   <ItemGroup>
